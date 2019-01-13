@@ -1,7 +1,11 @@
 package main
 
-import "github.com/gin-gonic/gin"
-import "os"
+import (
+	"os"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/heroku/x/hmetrics/onload"
+)
 
 type User struct {
 	Name string
@@ -18,7 +22,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if len(port) == 0 {
-		port = "3000"
+		port = "5000"
 	}
 	r.Run(":" + port)
 }
