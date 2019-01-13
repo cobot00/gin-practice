@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -39,7 +40,7 @@ func setRoute(router *gin.Engine) {
 
 func index(c *gin.Context) {
 	users := []User{{"abc", 21, ""}, {"def", 34, "xcv"}, {"ghi", 8, "12489"}}
-	c.HTML(200, "index.tmpl", gin.H{
+	c.HTML(http.StatusOK, "index.tmpl", gin.H{
 		"title": "Hello, world",
 		"users": users,
 	})
@@ -47,7 +48,7 @@ func index(c *gin.Context) {
 
 func sub(c *gin.Context) {
 	users := []User{{"hoge", 21, ""}, {"fuga", 34, "xcv"}, {"piyo", 8, "12489"}}
-	c.HTML(200, "index.tmpl", gin.H{
+	c.HTML(http.StatusOK, "index.tmpl", gin.H{
 		"title": "This is Sub",
 		"users": users,
 	})
