@@ -1,7 +1,12 @@
 package main
 
-import "github.com/gin-gonic/gin"
-import "os"
+import (
+	"net/http"
+	"os"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/heroku/x/hmetrics/onload"
+)
 
 type User struct {
 	Name string
@@ -18,7 +23,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if len(port) == 0 {
-		port = "3000"
+		port = "5000"
 	}
 	r.Run(":" + port)
 }
@@ -35,7 +40,7 @@ func setRoute(router *gin.Engine) {
 
 func index(c *gin.Context) {
 	users := []User{{"abc", 21, ""}, {"def", 34, "xcv"}, {"ghi", 8, "12489"}}
-	c.HTML(200, "index.tmpl", gin.H{
+	c.HTML(http.StatusOK, "index.tmpl", gin.H{
 		"title": "Hello, world",
 		"users": users,
 	})
@@ -43,7 +48,7 @@ func index(c *gin.Context) {
 
 func sub(c *gin.Context) {
 	users := []User{{"hoge", 21, ""}, {"fuga", 34, "xcv"}, {"piyo", 8, "12489"}}
-	c.HTML(200, "index.tmpl", gin.H{
+	c.HTML(http.StatusOK, "index.tmpl", gin.H{
 		"title": "This is Sub",
 		"users": users,
 	})
