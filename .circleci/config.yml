@@ -9,15 +9,15 @@ jobs:
       - checkout
 
       - run:
-          name: run linter
-          command: |
-            go vet ./...
-
-      - run:
           name: Download Dependencies
           command: |
             go get -u github.com/kardianos/govendor
             govendor sync
+
+      - run:
+          name: run linter
+          command: |
+            go vet ./...
 
       - run:
           name: Golang Test
