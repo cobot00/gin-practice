@@ -15,7 +15,9 @@ type User struct {
 }
 
 func main() {
-	r := createRouter()
+	r := gin.Default()
+	r.LoadHTMLGlob("templates/*")
+	r.Static("/css", "assets/css")
 
 	setRoute(r)
 
@@ -24,13 +26,6 @@ func main() {
 		port = "5000"
 	}
 	r.Run(":" + port)
-}
-
-func createRouter() *gin.Engine {
-	r := gin.Default()
-	r.LoadHTMLGlob("templates/*")
-	r.Static("/css", "assets/css")
-	return r
 }
 
 func setRoute(router *gin.Engine) {
