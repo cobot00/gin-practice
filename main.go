@@ -41,13 +41,6 @@ func setRoute(router *gin.Engine) {
 	router.GET("/sub", func(c *gin.Context) {
 		sub(c)
 	})
-
-	router.POST("/post_test", func(c *gin.Context) {
-		postTest(c)
-		c.Request.URL.Path = "/sub"
-		c.Request.Method = "GET"
-		router.HandleContext(c)
-	})
 }
 
 func index(c *gin.Context) {
@@ -64,12 +57,4 @@ func sub(c *gin.Context) {
 		"title": "This is Sub",
 		"users": users,
 	})
-}
-
-func postTest(c *gin.Context) {
-	text1 := c.PostForm("text1")
-	number1 := c.PostForm("number1")
-
-	println("text1: " + text1)
-	println("number1: " + number1)
 }
