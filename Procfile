@@ -1,1 +1,1 @@
-web: go-practice
+web: gin-practice
