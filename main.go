@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,13 @@ type User struct {
 	Name string
 	Age  int
 	Note string
+}
+
+type Sample struct {
+	ID          uint
+	IntValue    int
+	RealValue   float32
+	StringValue string
 }
 
 var db *gorm.DB
@@ -68,10 +76,13 @@ func index(c *gin.Context) {
 }
 
 func sub(c *gin.Context) {
-	users := []User{{"hoge", 21, ""}, {"fuga", 34, "xcv"}, {"piyo", 8, "12489"}}
-	c.HTML(http.StatusOK, "index.tmpl", gin.H{
-		"title": "This is Sub",
-		"users": users,
+	samples := []Sample{}
+	db.Table("sample").Order("id").Find(&samples)
+	log.Printf("Sample count: %v", len(samples))
+
+	c.HTML(http.StatusOK, "sample.tmpl", gin.H{
+		"title":   "This is Sub",
+		"samples": samples,
 	})
 }
 
@@ -81,6 +92,14 @@ func postTest(c *gin.Context) {
 
 	log.Println("text1: " + text1)
 	log.Println("number1: " + number1)
+
+	intValue, err := strconv.Atoi(number1)
+	if err != nil {
+		return
+	}
+
+	sample := Sample{StringValue: text1, IntValue: intValue}
+	db.Table("sample").Create(&sample)
 }
 
 func connectDb() *gorm.DB {
@@ -106,5 +125,6 @@ func connectDb() *gorm.DB {
 	}
 
 	log.Println("DB connect success!")
+
 	return db
 }
